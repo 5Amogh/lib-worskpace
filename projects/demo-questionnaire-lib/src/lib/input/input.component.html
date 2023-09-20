@@ -1,0 +1,96 @@
+<div *ngFor="let question of questions; let qi = index">
+  <div *ngIf="question?.sectionHeader && (!question.visibleIf.length || question.canDisplay == true)">
+    <h4 class="section-header-style">{{question?.sectionHeader}}</h4>
+  </div>
+  <div
+    [ngClass]="{
+      'ui card question-card sb--card relative9':
+        question.responseType != 'pageQuestions'
+    }"
+    *ngIf="!question.visibleIf.length || question?.canDisplay == true"
+  >
+    <div [ngClass]="{ content: question.responseType != 'pageQuestions' }">
+      <div class="d-flex flex-ai-flex-start flex-jc-space-between">
+        <div
+          *ngFor="let q of question.question; let qai = index"
+          [ngClass]="{
+            'mb-20': q.length,
+            'valid-response': questionnaireForm?.controls[question._id]?.valid
+          }"
+        >
+          <div class="sb-h5" *ngIf="q!=''">
+            {{ question.questionNumber + " .  "}}&nbsp;{{ q }}
+          </div>
+        </div>
+        <div *ngIf="question?.hint">
+          <i
+            class="icon large lightbulb"
+            (click)="dimmerIndex = qi; isDimmed = !isDimmed"
+          ></i>
+        </div>
+      </div>
+      <div *ngIf="question?.tip" class="mb-10">
+        <small class="mb-10">{{ question?.tip }}</small>
+      </div>
+      <div class="sbt-page-content-questionnaireFormarea'">
+        <sl-text-input
+          *ngIf="question.responseType == reponseType.TEXT"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+        ></sl-text-input>
+        <sl-date-input
+          *ngIf="question.responseType == reponseType.DATE"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+        ></sl-date-input>
+        <sl-number-input
+          *ngIf="question.responseType == reponseType.NUMBER"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+        ></sl-number-input>
+        <sl-range-input
+          *ngIf="question.responseType == reponseType.SLIDER"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+        ></sl-range-input>
+        <sl-radio-input
+          *ngIf="question.responseType == reponseType.RADIO"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+          [options]="question.options"
+          (dependentParent)="toggleQuestion($event)"
+        ></sl-radio-input>
+        <sl-checkbox-input
+          *ngIf="question.responseType == reponseType.MULTISELECT"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+          [options]="question.options"
+          (dependentParent)="toggleQuestion($event)"
+        ></sl-checkbox-input>
+        <ng-container *ngIf="question.responseType == reponseType.PAGEQUESTIONS;pageQuestions">
+          <sl-input
+          [questionnaireForm]="questionnaireForm"
+          [questions]="question.pageQuestions"
+          ></sl-input>
+        </ng-container>
+        <!-- <sl-matrix-questions
+          *ngIf="question.responseType == reponseType.MATRIX"
+          [questionnaireForm]="questionnaireForm"
+          [question]="question"
+        ></sl-matrix-questions> -->
+        <sl-ques-remarks
+          [question]="question"
+          *ngIf="question.showRemarks"
+        ></sl-ques-remarks>
+        <sl-attachment
+          [data]="{
+            submissionId: qService.getSubmissionId(),
+            files: question.fileName
+          }"
+          *ngIf="question.file"
+        ></sl-attachment>
+        <sl-alert-modal *ngIf="dimmerIndex == qi && question?.hint" [isDimmed]="isDimmed" [hint]="question?.hint" (closeHintEmitter)="closeHint()"></sl-alert-modal>
+      </div>
+    </div>
+  </div>
+</div>

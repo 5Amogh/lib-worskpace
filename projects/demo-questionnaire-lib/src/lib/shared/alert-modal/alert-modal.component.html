@@ -1,0 +1,39 @@
+<!-- <sui-modal
+  [mustScroll]="true"
+  [isClosable]="false"
+  [transitionDuration]="0"
+  [size]="'normal'"
+  class="sb-modal customModal"
+  appBodyScroll
+  *ngIf="isDimmed"
+  #modal
+>-->
+  <!--Header-->
+ <div class="sb-modal-header d-flex flex-dir-row">
+    <div>
+      <i class="info circle icon sb-color-primary"></i>
+    </div>
+    <div class="font-weight-bold sb-color-primary modalNote">
+      {{ hintModalNote }}
+    </div>
+  </div>
+  <!--/Header-->
+  <!--Content-->
+  <div class="sb-modal-content">
+    <h4 class="ui header">{{ hint }}</h4>
+  </div>
+  <!--/Content-->
+
+  <!--Actions-->
+  <!-- <div class="sb-modal-actions">
+    <button
+      type="button"
+      class="sb-btn sb-btn-sm sb-btn-primary"
+      type="submit"
+      (click)="closeHint()"
+    >
+    {{ hintCloseText }}
+    </button>
+  </div> -->
+  <!--/Actions-->
+<!-- </sui-modal> --> -->
